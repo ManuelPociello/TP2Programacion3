@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo Rick and Morty - Personajes</title>
+</head>
+<body>
+  <header>
+    <h1>Rick & Morty App</h1>
+    <nav>
+      <a href="./index.html">Inicio</a>
+      <a href="./catalogo.html">Catálogo</a>
+    </nav>
+  </header>
+
+  <main class="catalogo-main">
+    <h2>Catálogo de Personajes</h2>
+
+    <!-- Contenedor para estados (Cargando / Error) -->
+    <div id="estado-mensaje"></div>
+
+    <!-- Grilla donde JavaScript insertará las tarjetas -->
+    <section id="grilla-catalogo" class="grid-tarjetas">
+      <!-- Las tarjetas se generan dinámicamente con JS -->
+    </section>
+  </main>
+
+  <footer>
+    <p>Programación III - UTN San Nicolás | Año 2026 | API: Rick and Morty API</p>
+  </footer>
+
+  <script type="module" src="./src/catalogo.js"></script>
+</body>
+</html>
