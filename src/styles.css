@@ -57,13 +57,18 @@ header nav a:hover {
 main {
   flex: 1;
   padding: 3rem 1.5rem;
-  max-width: 1000px;
+  max-width: 1000px; /* Ancho estándar para la portada */
   margin: 0 auto;
   width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 2rem;
+}
+
+/* 🌟 NUEVO: Hacemos que el main del catálogo sea más ancho para reducir los espacios laterales */
+.catalogo-main {
+  max-width: 1250px; 
 }
 
 /* Sección Hero con temática de Portal Multiversal */
@@ -206,8 +211,9 @@ main {
 }
 
 .tarjeta-info p {
-  font-size: 0.95rem;
+  font-size: 0.9rem;
   color: var(--texto-gris);
+  margin-bottom: 0.25rem;
 }
 
 /* Contenedor general de paginación */
@@ -232,7 +238,7 @@ main {
   border: 1px solid rgba(0, 181, 204, 0.3);
 }
 
-/* Estilos de los botones de paginación (por si acaso ya los tenías) */
+/* Estilos de los botones de paginación */
 .btn-paginacion {
   background: var(--espacio-card);
   color: var(--portal-verde);
@@ -288,7 +294,6 @@ footer {
     padding: 1.5rem 1rem;
   }
 
-  /* Ajustes responsivos optimizados para el Hero y su imagen */
   .hero {
     padding: 2rem 1rem;
     gap: 1rem;
@@ -303,7 +308,7 @@ footer {
   }
 
   .hero-img {
-    max-width: 100%; /* Se acopla perfecto al ancho del celular sin desbordarse */
+    max-width: 100%;
     border-radius: 8px;
   }
 

@@ -47,6 +47,8 @@ function renderizarTarjetas(results) {
                 <h4>${dato.name}</h4>
                 <p>Estado: ${dato.status}</p>
                 <p>Especie: ${dato.species}</p>
+                <p>Origen: ${dato.origin.name}</p>
+                <p>Ubicación: ${dato.location.name}</p>
             </div>
         `;
 
