@@ -151,6 +151,50 @@ main {
   line-height: 1.6;
 }
 
+/* Estilos para el formulario de búsqueda inyectado por JS */
+.form-filtros {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--espacio-card);
+  padding: 1rem 2rem;
+  border-radius: 12px;
+  border: 1px solid rgba(151, 206, 76, 0.3);
+  width: 100%;
+  max-width: 600px;
+  margin-bottom: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+.form-grupo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  width: 100%;
+}
+
+.form-grupo label {
+  font-size: 0.9rem;
+  color: var(--portal-verde);
+  font-weight: bold;
+}
+
+.form-grupo input {
+  background-color: var(--espacio-oscuro);
+  color: var(--texto-claro);
+  border: 1px solid var(--portal-azul);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.form-grupo input:focus {
+  border-color: var(--portal-verde);
+  box-shadow: 0 0 8px rgba(151, 206, 76, 0.4);
+}
+
 .mensaje-cargando {
   text-align: center;
   font-size: 1.2rem;

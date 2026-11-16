@@ -3,9 +3,37 @@ import './styles.css';
 const $grilla = document.getElementById("grilla-catalogo");
 const $estado = document.getElementById("estado-mensaje");
 const $paginacion = document.getElementById("paginacion");
+const $formCatalogo = document.getElementById("formulario-catalogo");
 
 let urlActual = "https://rickandmortyapi.com/api/character";
 let pagActual = 1;
+let terminoBusqueda = "";
+
+function renderizarFormulario() {
+    const $form = document.createElement("form");
+    $form.classList.add("form-filtros");
+
+    $form.innerHTML = `
+        <div class="form-grupo">
+            <label for="input-busqueda">Buscar personaje por nombre:</label>
+            <input type="text" id="input-busqueda" placeholder="Ej. Rick, Morty, Summer..." value="${terminoBusqueda}">
+            <label for="input-busqueda">Buscar personaje por estado:</label>
+            <input type="text" id="input-busqueda" placeholder="Ej. Rick, Morty, Summer..." value="${terminoBusqueda}">
+        </div>
+    `;
+
+    $formCatalogo.appendChild($form);
+
+    const $inputBusqueda = document.getElementById("input-busqueda");
+    
+    $inputBusqueda.addEventListener("input", (e) => {
+        terminoBusqueda = e.target.value.trim();
+        pagActual = 1; 
+        
+        urlActual = `https://rickandmortyapi.com/api/character/?name=${terminoBusqueda}`;
+        cargarDatos(urlActual);
+    });
+}
 
 async function cargarDatos(url) {
     try {
@@ -23,7 +51,12 @@ async function cargarDatos(url) {
 
         await new Promise(resolve => setTimeout(resolve, 600)); 
 
-        $estado.innerHTML = "";
+        if (datos.results === null) {
+            console.error("Hubo un error:", error);
+            $estado.innerHTML = `
+            <p class="mensaje-error">❌ ¡Ups! No se pudo encontrar resultados. Intenta otras opciones.</p>
+        `;
+        } else $estado.innerHTML = "";
 
         renderizarTarjetas(datos.results);
         renderizarPaginacion(datos.info);
@@ -97,4 +130,5 @@ function renderizarPaginacion(info) {
     $paginacion.appendChild($btnSiguiente);
 }
 
+renderizarFormulario();
 cargarDatos(urlActual);
