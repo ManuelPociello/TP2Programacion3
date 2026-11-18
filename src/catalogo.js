@@ -5,10 +5,45 @@ const $estado = document.getElementById("estado-mensaje");
 const $paginacion = document.getElementById("paginacion");
 const $formFiltros = document.getElementById("form-filtros");
 const $searchBusqueda = document.getElementById("search-busqueda");
+const $labelBusqueda = document.getElementById("label-busqueda");
+const $tituloSeccion = document.getElementById("titulo-seccion");
+const $btnPersonajes = document.getElementById("btn-personajes");
+const $btnPlanetas = document.getElementById("btn-planetas");
 
-let urlActual = "https://dragonball-api.com/api/characters?limit=16";
+let tipoBusqueda = "characters";
+const urlBase = "https://dragonball-api.com/api/";
+const limite = "limit=16";
+let urlActual = `${urlBase}${tipoBusqueda}?${limite}`;
 let pagActual = 1;
 let terminoBusqueda = "";
+
+$btnPersonajes.addEventListener("click", () => {
+    tipoBusqueda = "characters";
+    $btnPersonajes.classList.add("activo");
+    $btnPlanetas.classList.remove("activo");
+    $tituloSeccion.textContent = "Catálogo de Personajes";
+    $labelBusqueda.textContent = "Buscar personaje por nombre:";
+    $searchBusqueda.placeholder = "Ej. Goku, Vegeta, Piccolo...";
+    reiniciarBusquedaYCargar();
+});
+
+$btnPlanetas.addEventListener("click", () => {
+    tipoBusqueda = "planets";
+    $btnPlanetas.classList.add("activo");
+    $btnPersonajes.classList.remove("activo");
+    $tituloSeccion.textContent = "Catálogo de Planetas";
+    $labelBusqueda.textContent = "Buscar planeta por nombre:";
+    $searchBusqueda.placeholder = "Ej. Namek, Tierra, Vegeta...";
+    reiniciarBusquedaYCargar();
+});
+
+function reiniciarBusquedaYCargar() {
+    terminoBusqueda = "";
+    $searchBusqueda.value = "";
+    pagActual = 1;
+    urlActual = `${urlBase}${tipoBusqueda}?${limite}`;
+    cargarDatos(urlActual);
+}
 
 $formFiltros.addEventListener("submit", (e) => {
     e.preventDefault(); 
@@ -16,9 +51,9 @@ $formFiltros.addEventListener("submit", (e) => {
     pagActual = 1; 
     
     if (terminoBusqueda) {
-        urlActual = `https://dragonball-api.com/api/characters?name=${terminoBusqueda}&limit=16`;
+        urlActual = `${urlBase}${tipoBusqueda}?name=${terminoBusqueda}&${limite}`;
     } else {
-        urlActual = "https://dragonball-api.com/api/characters?limit=16";
+        urlActual = `${urlBase}${tipoBusqueda}?${limite}`;
     }
     cargarDatos(urlActual);
 });
@@ -87,6 +122,11 @@ function renderizarTarjetas(results) {
         const $tarjeta = document.createElement("article");
         $tarjeta.classList.add("tarjeta");
 
+        // Añadimos una clase distintiva si es la sección de planetas para un diseño adaptado
+        if (tipoBusqueda === "planets") {
+            $tarjeta.classList.add("es-planeta");
+        }
+
         const $img = document.createElement("img");
         $img.src = dato.image;
         $img.alt = dato.name;
@@ -106,20 +146,34 @@ function renderizarTarjetas(results) {
             return $p;
         };
 
-        const $pRaza = crearParrafoDetalle("Raza:", dato.race);
-        const $pGenero = crearParrafoDetalle("Género:", dato.gender);
-        const $pKi = crearParrafoDetalle("Ki:", dato.ki);
-        const $pAfiliacion = crearParrafoDetalle("Afiliación:", dato.affiliation);
-
         $divInfo.appendChild($h4);
-        $divInfo.appendChild($pRaza);
-        $divInfo.appendChild($pGenero);
-        $divInfo.appendChild($pKi);
-        $divInfo.appendChild($pAfiliacion);
+
+        if (tipoBusqueda === "characters") {
+            const $pRaza = crearParrafoDetalle("Raza:", dato.race);
+            const $pGenero = crearParrafoDetalle("Género:", dato.gender);
+            const $pKi = crearParrafoDetalle("Ki:", dato.ki);
+            const $pAfiliacion = crearParrafoDetalle("Afiliación:", dato.affiliation);
+
+            $divInfo.appendChild($pRaza);
+            $divInfo.appendChild($pGenero);
+            $divInfo.appendChild($pKi);
+            $divInfo.appendChild($pAfiliacion);
+
+        } else if (tipoBusqueda === "planets") {
+            const $pDestruido = crearParrafoDetalle("¿Destruido?:", dato.isDestroyed ? "Sí" : "No");
+            $divInfo.appendChild($pDestruido);
+
+            // Renderizado seguro de la descripción del planeta con su clase estilizada
+            if (dato.description) {
+                const $pDesc = document.createElement("p");
+                $pDesc.classList.add("descripcion-planeta");
+                $pDesc.textContent = dato.description;
+                $divInfo.appendChild($pDesc);
+            }
+        }
 
         $tarjeta.appendChild($img);
         $tarjeta.appendChild($divInfo);
-
         $grilla.appendChild($tarjeta);
     });
 }
