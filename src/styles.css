@@ -1,13 +1,13 @@
-/* Paleta de Colores Oficial / Temática Rick & Morty */
+/* Paleta de Colores Oficial / Temática Dragon Ball */
 :root {
-  --portal-verde: #97ce4c;
-  --portal-verde-oscuro: #5c8421;
-  --portal-azul: #00b5cc;
-  --espacio-oscuro: #0b0e14;
-  --espacio-card: #141b24;
+  --db-naranja: #ff7800;
+  --db-naranja-oscuro: #cc6000;
+  --db-azul: #007acc;
+  --db-oscuro: #0f1115;
+  --db-card: #181c24;
   --texto-claro: #f4f4f9;
   --texto-gris: #a2aab8;
-  --acento-amarillo: #f0e68c;
+  --acento-dorado: #ffcc00;
 }
 
 * {
@@ -18,17 +18,17 @@
 
 body {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  background-color: var(--espacio-oscuro);
+  background-color: var(--db-oscuro);
   color: var(--texto-claro);
   display: flex;
   flex-direction: column;
   min-height: 100vh;
 }
 
-/* Header con Flexbox y toque espacial */
+/* Header con Flexbox y toque de Dragon Ball */
 header {
-  background-color: var(--espacio-card);
-  border-bottom: 2px solid var(--portal-verde);
+  background-color: var(--db-card);
+  border-bottom: 2px solid var(--db-naranja);
   padding: 1.2rem 2rem;
   display: flex;
   justify-content: space-between;
@@ -36,9 +36,9 @@ header {
 }
 
 header h1 {
-  color: var(--portal-verde);
+  color: var(--db-naranja);
   font-size: 1.6rem;
-  text-shadow: 0 0 10px rgba(151, 206, 76, 0.4);
+  text-shadow: 0 0 10px rgba(255, 120, 0, 0.4);
 }
 
 header nav a {
@@ -50,14 +50,14 @@ header nav a {
 }
 
 header nav a:hover {
-  color: var(--portal-verde);
-  text-shadow: 0 0 8px rgba(151, 206, 76, 0.6);
+  color: var(--db-naranja);
+  text-shadow: 0 0 8px rgba(255, 120, 0, 0.6);
 }
 
 main {
   flex: 1;
   padding: 3rem 1.5rem;
-  max-width: 1000px; /* Ancho estándar para la portada */
+  max-width: 1000px;
   margin: 0 auto;
   width: 100%;
   display: flex;
@@ -66,19 +66,19 @@ main {
   gap: 2rem;
 }
 
-/* 🌟 NUEVO: Hacemos que el main del catálogo sea más ancho para reducir los espacios laterales */
+/* Ancho ampliado para el main del catálogo */
 .catalogo-main {
   max-width: 1250px; 
 }
 
-/* Sección Hero con temática de Portal Multiversal */
+/* Sección Hero */
 .hero {
   text-align: center;
   padding: 3rem 2rem;
-  background-color: #141b24;
-  border: 2px dashed var(--portal-azul);
+  background-color: var(--db-card);
+  border: 2px dashed var(--db-azul);
   border-radius: 16px;
-  box-shadow: 0 0 25px rgba(0, 181, 204, 0.15);
+  box-shadow: 0 0 25px rgba(0, 122, 204, 0.15);
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -87,10 +87,10 @@ main {
 }
 
 .hero-texto h2 {
-  color: var(--portal-azul);
+  color: var(--db-azul);
   font-size: 2.5rem;
   margin-bottom: 0.8rem;
-  text-shadow: 0 0 12px rgba(0, 181, 204, 0.4);
+  text-shadow: 0 0 12px rgba(0, 122, 204, 0.4);
 }
 
 .hero-texto p {
@@ -100,7 +100,6 @@ main {
   line-height: 1.6;
 }
 
-/* Estilo para la imagen integrada */
 .hero-img {
   width: 100%;
   max-width: 650px;
@@ -110,16 +109,16 @@ main {
   margin-bottom: 0.5rem;
 }
 
-/* Botón principal estilo Portal de Energía */
+/* Botón principal */
 .btn {
-  background: linear-gradient(45deg, var(--portal-verde), var(--portal-azul));
-  color: var(--espacio-oscuro);
+  background: linear-gradient(45deg, var(--db-naranja), var(--db-azul));
+  color: var(--texto-claro);
   padding: 0.9rem 2.2rem;
   border-radius: 30px;
   text-decoration: none;
   font-weight: bold;
   font-size: 1.1rem;
-  box-shadow: 0 4px 15px rgba(151, 206, 76, 0.4);
+  box-shadow: 0 4px 15px rgba(255, 120, 0, 0.4);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   display: inline-block;
   text-align: center;
@@ -127,21 +126,21 @@ main {
 
 .btn:hover {
   transform: translateY(-3px) scale(1.03);
-  box-shadow: 0 6px 20px rgba(0, 181, 204, 0.6);
+  box-shadow: 0 6px 20px rgba(0, 122, 204, 0.6);
 }
 
-/* Sección About (Sobre el proyecto) */
+/* Sección About */
 .about {
-  background-color: var(--espacio-card);
+  background-color: var(--db-card);
   padding: 2.5rem;
   border-radius: 12px;
-  border-left: 4px solid var(--portal-verde);
+  border-left: 4px solid var(--db-naranja);
   width: 100%;
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
 .about h3 {
-  color: var(--portal-verde);
+  color: var(--db-naranja);
   margin-bottom: 0.8rem;
   font-size: 1.3rem;
 }
@@ -151,15 +150,15 @@ main {
   line-height: 1.6;
 }
 
-/* Estilos para el formulario de búsqueda inyectado por JS */
+/* Estilos del Formulario de Búsqueda */
 .form-filtros {
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: var(--espacio-card);
-  padding: 1rem 2rem;
+  background-color: var(--db-card);
+  padding: 1.2rem 2rem;
   border-radius: 12px;
-  border: 1px solid rgba(151, 206, 76, 0.3);
+  border: 1px solid rgba(255, 120, 0, 0.3);
   width: 100%;
   max-width: 600px;
   margin-bottom: 1.5rem;
@@ -175,30 +174,36 @@ main {
 
 .form-grupo label {
   font-size: 0.9rem;
-  color: var(--portal-verde);
+  color: var(--db-naranja);
   font-weight: bold;
+  cursor: pointer;
 }
 
 .form-grupo input {
-  background-color: var(--espacio-oscuro);
+  background-color: var(--db-oscuro);
   color: var(--texto-claro);
-  border: 1px solid var(--portal-azul);
-  padding: 0.6rem 1rem;
+  border: 1px solid var(--db-azul);
+  padding: 0.7rem 1rem;
   border-radius: 8px;
   font-size: 1rem;
   outline: none;
-  transition: border-color 0.3s ease;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  width: 100%;
+}
+
+.form-grupo input::placeholder {
+  color: var(--texto-gris);
 }
 
 .form-grupo input:focus {
-  border-color: var(--portal-verde);
-  box-shadow: 0 0 8px rgba(151, 206, 76, 0.4);
+  border-color: var(--db-naranja);
+  box-shadow: 0 0 10px rgba(255, 120, 0, 0.4);
 }
 
 .mensaje-cargando {
   text-align: center;
   font-size: 1.2rem;
-  color: var(--portal-azul);
+  color: var(--db-azul);
   padding: 2rem;
   font-weight: bold;
 }
@@ -214,7 +219,7 @@ main {
   width: 100%;
 }
 
-/* Grilla de Tarjetas adaptada para mostrarse de 4 en 4 */
+/* Grilla de Tarjetas (4 columnas) */
 .grid-tarjetas {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
@@ -225,23 +230,25 @@ main {
 
 /* Estilos de las tarjetas del catálogo */
 .tarjeta {
-  background-color: var(--espacio-card);
+  background-color: var(--db-card);
   border-radius: 12px;
   overflow: hidden;
-  border: 1px solid rgba(151, 206, 76, 0.2);
+  border: 1px solid rgba(255, 120, 0, 0.2);
   box-shadow: 0 4px 10px rgba(0,0,0,0.4);
   transition: transform 0.3s ease, border-color 0.3s ease;
 }
 
 .tarjeta:hover {
   transform: translateY(-6px);
-  border-color: var(--portal-verde);
+  border-color: var(--db-naranja);
 }
 
 .tarjeta img {
   width: 100%;
   height: 230px;
-  object-fit: cover;
+  object-fit: contain;
+  background-color: rgba(0, 0, 0, 0.2);
+  padding: 0.5rem;
 }
 
 .tarjeta-info {
@@ -270,23 +277,21 @@ main {
   width: 100%;
 }
 
-/* Estilo para el texto indicador de la página actual */
 .info-paginacion {
   color: var(--texto-claro);
   font-weight: bold;
   font-size: 1.05rem;
   letter-spacing: 1px;
-  background-color: var(--espacio-card);
+  background-color: var(--db-card);
   padding: 0.5rem 1rem;
   border-radius: 20px;
-  border: 1px solid rgba(0, 181, 204, 0.3);
+  border: 1px solid rgba(0, 122, 204, 0.3);
 }
 
-/* Estilos de los botones de paginación */
 .btn-paginacion {
-  background: var(--espacio-card);
-  color: var(--portal-verde);
-  border: 2px solid var(--portal-verde);
+  background: var(--db-card);
+  color: var(--db-naranja);
+  border: 2px solid var(--db-naranja);
   padding: 0.75rem 1.5rem;
   border-radius: 25px;
   font-weight: bold;
@@ -297,10 +302,10 @@ main {
 }
 
 .btn-paginacion:hover:not(:disabled) {
-  background-color: var(--portal-verde);
-  color: var(--espacio-oscuro);
+  background-color: var(--db-naranja);
+  color: var(--db-oscuro);
   transform: translateY(-2px);
-  box-shadow: 0 0 15px rgba(151, 206, 76, 0.5);
+  box-shadow: 0 0 15px rgba(255, 120, 0, 0.5);
 }
 
 .btn-paginacion:disabled {
@@ -315,14 +320,14 @@ main {
 footer {
   text-align: center;
   padding: 1.2rem;
-  background-color: var(--espacio-card);
+  background-color: var(--db-card);
   color: var(--texto-gris);
   font-size: 0.85rem;
   border-top: 1px solid rgba(255,255,255,0.05);
   margin-top: auto;
 }
 
-/* Media Query Responsive Mejorada (Móviles y Tablets) */
+/* Media Query Responsive */
 @media (max-width: 768px) {
   header {
     flex-direction: column;
@@ -336,6 +341,10 @@ footer {
 
   main {
     padding: 1.5rem 1rem;
+  }
+
+  .form-filtros {
+    padding: 1rem;
   }
 
   .hero {

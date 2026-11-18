@@ -3,45 +3,47 @@ import './styles.css';
 const $grilla = document.getElementById("grilla-catalogo");
 const $estado = document.getElementById("estado-mensaje");
 const $paginacion = document.getElementById("paginacion");
-const $formCatalogo = document.getElementById("formulario-catalogo");
+const $formFiltros = document.getElementById("form-filtros");
+const $searchBusqueda = document.getElementById("search-busqueda");
 
-let urlActual = "https://rickandmortyapi.com/api/character";
+let urlActual = "https://dragonball-api.com/api/characters?limit=16";
 let pagActual = 1;
 let terminoBusqueda = "";
 
-function renderizarFormulario() {
-    const $form = document.createElement("form");
-    $form.classList.add("form-filtros");
-
-    $form.innerHTML = `
-        <div class="form-grupo">
-            <label for="input-busqueda">Buscar personaje por nombre:</label>
-            <input type="text" id="input-busqueda" placeholder="Ej. Rick, Morty, Summer..." value="${terminoBusqueda}">
-            <label for="input-busqueda">Buscar personaje por estado:</label>
-            <input type="text" id="input-busqueda" placeholder="Ej. Rick, Morty, Summer..." value="${terminoBusqueda}">
-        </div>
-    `;
-
-    $formCatalogo.appendChild($form);
-
-    const $inputBusqueda = document.getElementById("input-busqueda");
+$formFiltros.addEventListener("submit", (e) => {
+    e.preventDefault(); 
+    terminoBusqueda = $searchBusqueda.value.trim();
+    pagActual = 1; 
     
-    $inputBusqueda.addEventListener("input", (e) => {
-        terminoBusqueda = e.target.value.trim();
-        pagActual = 1; 
-        
-        urlActual = `https://rickandmortyapi.com/api/character/?name=${terminoBusqueda}`;
-        cargarDatos(urlActual);
-    });
-}
+    if (terminoBusqueda) {
+        urlActual = `https://dragonball-api.com/api/characters?name=${terminoBusqueda}&limit=16`;
+    } else {
+        urlActual = "https://dragonball-api.com/api/characters?limit=16";
+    }
+    cargarDatos(urlActual);
+});
 
 async function cargarDatos(url) {
     try {
-        $estado.innerHTML = `<p class="mensaje-cargando">⏳ Cargando personajes del multiverso...</p>`;
+        $estado.innerHTML = ""; 
+        const $pCargando = document.createElement("p");
+        $pCargando.classList.add("mensaje-cargando");
+        $pCargando.textContent = "⏳ Cargando datos del multiverso...";
+        $estado.appendChild($pCargando);
+
         $grilla.innerHTML = "";
         $paginacion.innerHTML = "";
 
         const respuesta = await fetch(url);
+
+        if (respuesta.status === 404) {
+            $estado.innerHTML = "";
+            const $pError = document.createElement("p");
+            $pError.classList.add("mensaje-error");
+            $pError.textContent = "❌ No se pudo encontrar resultados. Intenta otras opciones.";
+            $estado.appendChild($pError);
+            return;
+        }
 
         if (!respuesta.ok) {
             throw new Error(`Error de red: ${respuesta.status}`);
@@ -51,21 +53,32 @@ async function cargarDatos(url) {
 
         await new Promise(resolve => setTimeout(resolve, 600)); 
 
-        if (datos.results === null) {
-            console.error("Hubo un error:", error);
-            $estado.innerHTML = `
-            <p class="mensaje-error">❌ ¡Ups! No se pudo encontrar resultados. Intenta otras opciones.</p>
-        `;
-        } else $estado.innerHTML = "";
+        const resultados = Array.isArray(datos) ? datos : (datos.items || []);
 
-        renderizarTarjetas(datos.results);
-        renderizarPaginacion(datos.info);
+        if (resultados.length === 0) {
+            $estado.innerHTML = "";
+            const $pError = document.createElement("p");
+            $pError.classList.add("mensaje-error");
+            $pError.textContent = "❌ No se pudo encontrar resultados. Intenta otras opciones.";
+            $estado.appendChild($pError);
+            return;
+        } else {
+            $estado.innerHTML = ""; 
+        }
+
+        renderizarTarjetas(resultados);
+        
+        if (datos.meta) {
+            renderizarPaginacion(datos.meta, datos.links);
+        }
 
     } catch (error) {
         console.error("Hubo un error:", error);
-        $estado.innerHTML = `
-            <p class="mensaje-error">❌ ¡Ups! No se pudo cargar el catálogo. Verificá tu conexión a internet.</p>
-        `;
+        $estado.innerHTML = "";
+        const $pError = document.createElement("p");
+        $pError.classList.add("mensaje-error");
+        $pError.textContent = "❌ ¡Ups! No se pudo cargar el catálogo. Verificá tu conexión a internet.";
+        $estado.appendChild($pError);
     }
 }
 
@@ -74,54 +87,75 @@ function renderizarTarjetas(results) {
         const $tarjeta = document.createElement("article");
         $tarjeta.classList.add("tarjeta");
 
-        $tarjeta.innerHTML = `
-            <img src="${dato.image}" alt="${dato.name}">
-            <div class="tarjeta-info">
-                <h4>${dato.name}</h4>
-                <p>Estado: ${dato.status}</p>
-                <p>Especie: ${dato.species}</p>
-                <p>Origen: ${dato.origin.name}</p>
-                <p>Ubicación: ${dato.location.name}</p>
-            </div>
-        `;
+        const $img = document.createElement("img");
+        $img.src = dato.image;
+        $img.alt = dato.name;
+
+        const $divInfo = document.createElement("div");
+        $divInfo.classList.add("tarjeta-info");
+
+        const $h4 = document.createElement("h4");
+        $h4.textContent = dato.name;
+
+        const crearParrafoDetalle = (etiquetaTexto, valorTexto) => {
+            const $p = document.createElement("p");
+            const $strong = document.createElement("strong");
+            $strong.textContent = etiquetaTexto + " ";
+            $p.appendChild($strong);
+            $p.append(document.createTextNode(valorTexto || "Desconocido"));
+            return $p;
+        };
+
+        const $pRaza = crearParrafoDetalle("Raza:", dato.race);
+        const $pGenero = crearParrafoDetalle("Género:", dato.gender);
+        const $pKi = crearParrafoDetalle("Ki:", dato.ki);
+        const $pAfiliacion = crearParrafoDetalle("Afiliación:", dato.affiliation);
+
+        $divInfo.appendChild($h4);
+        $divInfo.appendChild($pRaza);
+        $divInfo.appendChild($pGenero);
+        $divInfo.appendChild($pKi);
+        $divInfo.appendChild($pAfiliacion);
+
+        $tarjeta.appendChild($img);
+        $tarjeta.appendChild($divInfo);
 
         $grilla.appendChild($tarjeta);
     });
 }
 
-function renderizarPaginacion(info) {
+function renderizarPaginacion(meta, links) {
     $paginacion.innerHTML = "";
 
     const $btnAnterior = document.createElement("button");
     $btnAnterior.textContent = "⬅️ Anterior";
     $btnAnterior.classList.add("btn-paginacion");
     
-    if (!info.prev) {
+    if (!links || !links.previous) {
         $btnAnterior.disabled = true;
     } else {
         $btnAnterior.addEventListener("click", () => {
             pagActual -= 1;
             window.scrollTo({ top: 0, behavior: 'smooth' }); 
-            cargarDatos(info.prev);
+            cargarDatos(links.previous);
         });
     }
 
     const $pagActual = document.createElement("p");
-    $pagActual.textContent = `${pagActual} ... ${info.pages}`;
+    $pagActual.textContent = `Página ${meta.currentPage} de ${meta.totalPages}`;
     $pagActual.classList.add("info-paginacion");
 
     const $btnSiguiente = document.createElement("button");
     $btnSiguiente.textContent = "Siguiente ➡️";
     $btnSiguiente.classList.add("btn-paginacion");
 
-    if (!info.next) {
+    if (!links || !links.next) {
         $btnSiguiente.disabled = true;
     } else {
         $btnSiguiente.addEventListener("click", () => {
             pagActual += 1;
             window.scrollTo({ top: 0, behavior: 'smooth' });
-            cargarDatos(info.next);
-
+            cargarDatos(links.next);
         });
     }
 
@@ -130,5 +164,5 @@ function renderizarPaginacion(info) {
     $paginacion.appendChild($btnSiguiente);
 }
 
-renderizarFormulario();
+// Inicialización de la aplicación
 cargarDatos(urlActual);

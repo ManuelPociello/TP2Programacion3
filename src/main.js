@@ -1,3 +1,3 @@
 import './styles.css';
 
-console.log("Landing page de Rick and Morty cargada correctamente.");
+console.log("Landing page de Dragon Ball App cargada correctamente.");
